@@ -7,7 +7,7 @@ import plotly.graph_objects as go
 # Var 3
 # Y=|x|; a=-3; b=3;
 
-# СВ Yi
+# Random Variable Yi
 def make_y_i(n, a, b):
     sigma_i = np.random.sample(n)
     x_i = list(map(lambda x: x * (b - a) + a, sigma_i))
