@@ -4,6 +4,7 @@ import plotly.graph_objects as go
 from task1 import make_y_i
 
 
+# Получаем ряд накопленных частот
 def make_n_x(n_i):
     n_x = []
     temp = n_i[0]
@@ -31,8 +32,24 @@ def check_amount_of_intervals(n, amount_of_intervals):
     return amount_of_intervals
 
 
+# Получение относительных частот
+def frequency(n, n_i):
+    n_i_new = []
+    for i in range(0, len(n_i)):
+        n_i_new.append(n_i[i] / n)
+    return n_i_new
+
+
+# Середины интервалов для построения полигона
+def make_middle_of_intervals(A_i, B_i):
+    middles = []
+    for i in range(0, len(A_i)):
+        middles.append(A_i[i]+((B_i[i] - A_i[i]) / 2))
+    return middles
+
+
 # Графики и таблицы
-def visualisation(A_i, f_i):
+def visualisation(A_i, B_i, n_i, f_i):
     xlist = []
     ylist = []
     for i in range(0, amount_of_intervals):
@@ -46,9 +63,11 @@ def visualisation(A_i, f_i):
     )
     ax1.plot(xlist, ylist)
     ax1.set_title("Гистограмма")
-    ax2.plot(A_i, n_i_lr2)
-    ax2.set_title("Полигон частот")
-    n_x = make_n_x(n_i_lr2)
+    n_i_fr = frequency(n, n_i)
+    mid = make_middle_of_intervals(A_i, B_i)
+    ax2.plot(mid, n_i_fr, "g-o")
+    ax2.set_title("Полигон относительных частот")
+    n_x = make_n_x(n_i)
     F_practical = list(map(lambda x: x / n, n_x))
     ax3.step(n_x, F_practical, "g-o", where="pre")
     ax3.set_title("Эмпирическая F")
@@ -56,11 +75,11 @@ def visualisation(A_i, f_i):
     for i in range(0, len(xlist)):
         ylist.append(1 / 3)  # плотность для конкретной функции
     ax4.plot(xlist, ylist)
-    ax4.set_title("Плотность распределения")
+    ax4.set_title("Теоретическая плотность распределения")
     table1 = go.Figure(
         data=[
             go.Table(header=dict(values=['Ai', 'Bi', 'Количество СВ на данном интервале', 'Значения F эмпирической']),
-                     cells=dict(values=[A_i, B_i, n_i_lr2, F_practical]))
+                     cells=dict(values=[A_i, B_i, n_i, F_practical]))
         ])
     table1.write_html('tmp.html', auto_open=True)
     plt.show()
@@ -99,7 +118,7 @@ if __name__ == '__main__':
     f_i = []
     for i in range(0, amount_of_intervals):
         f_i.append(n_i_lr2[i] / (n * len_of_interval))
-    visualisation(A_i, f_i)
+    visualisation(A_i, B_i, n_i_lr2, f_i)
 
     # Равновероятностный
     amount_of_intervals = find_amount_of_intervals(n)
@@ -126,4 +145,4 @@ if __name__ == '__main__':
     f_i = []
     for i in range(0, amount_of_intervals):
         f_i.append(n_i_lr2[i] / (n * h_i[i]))
-    visualisation(A_i, f_i)
+    visualisation(A_i, B_i, n_i_lr2, f_i)
