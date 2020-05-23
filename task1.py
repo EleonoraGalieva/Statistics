@@ -20,7 +20,7 @@ def M(a, b):
 
 
 def D(a, b):
-    return (b - a) ** 2
+    return ((b - a) ** 2)/12
 
 
 if __name__ == '__main__':
