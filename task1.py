@@ -15,6 +15,13 @@ def make_y_i(n, a, b):
     y_i.sort()
     return y_i
 
+def M(a, b):
+    return (a + b) / 2
+
+
+def D(a, b):
+    return (b - a) ** 2
+
 
 if __name__ == '__main__':
     # Lab1
