@@ -4,7 +4,6 @@ import plotly.graph_objects as go
 from task1 import make_y_i
 
 
-# Получаем ряд накопленных частот
 def make_n_x(n_i):
     n_x = []
     temp = n_i[0]
