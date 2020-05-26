@@ -1,9 +1,11 @@
 import math
+import random
 import matplotlib.pyplot as plt
 import plotly.graph_objects as go
 from task1 import make_y_i
 
 
+# Получаем ряд накопленных частот
 def make_n_x(n_i):
     n_x = []
     temp = n_i[0]
@@ -24,26 +26,21 @@ def find_amount_of_intervals(n):
 
 
 # Используется для равновероятностного метода.
-# Если размер выборки нацело не делится на кол-во интервалов, то уменьшаем кол-во интервалов
-def check_amount_of_intervals(n, amount_of_intervals):
+# Если размер выборки нацело не делится на кол-во интервалов, то
+# Случайным образом выбираем число из выборки и удаляем его
+def check_amount_of_intervals(n, amount_of_intervals, y):
     while n % amount_of_intervals != 0:
-        amount_of_intervals -= 1
-    return amount_of_intervals
-
-
-# Получение относительных частот
-def frequency(n, n_i):
-    n_i_new = []
-    for i in range(0, len(n_i)):
-        n_i_new.append(n_i[i] / n)
-    return n_i_new
+        temp = random.choice(y)
+        y.remove(temp)
+        n -= 1
+    return amount_of_intervals, y, n
 
 
 # Середины интервалов для построения полигона
 def make_middle_of_intervals(A_i, B_i):
     middles = []
     for i in range(0, len(A_i)):
-        middles.append(A_i[i]+((B_i[i] - A_i[i]) / 2))
+        middles.append(A_i[i] + ((B_i[i] - A_i[i]) / 2))
     return middles
 
 
@@ -62,9 +59,8 @@ def visualisation(A_i, B_i, n_i, f_i):
     )
     ax1.plot(xlist, ylist)
     ax1.set_title("Гистограмма")
-    n_i_fr = frequency(n, n_i)
     mid = make_middle_of_intervals(A_i, B_i)
-    ax2.plot(mid, n_i_fr, "g-o")
+    ax2.plot(mid, f_i, "g-o")
     ax2.set_title("Полигон относительных частот")
     n_x = make_n_x(n_i)
     F_practical = list(map(lambda x: x / n, n_x))
@@ -80,8 +76,7 @@ def visualisation(A_i, B_i, n_i, f_i):
             go.Table(header=dict(values=['Ai', 'Bi', 'Количество СВ на данном интервале', 'Значения F эмпирической']),
                      cells=dict(values=[A_i, B_i, n_i, F_practical]))
         ])
-    table1.write_html('tmp.html', auto_open=True)
-    plt.show()
+    return table1, plt
 
 
 if __name__ == '__main__':
@@ -107,22 +102,25 @@ if __name__ == '__main__':
     # Находим кол-во СВ, которые попали в данный интервал
     n_i_lr2 = []
     amount_of_nums_in_interval = 0
+    ind = 0
     for i in range(0, len(A_i)):
-        for j in range(0, len(y_i)):
+        for j in range(ind, len(y_i)):
             if B_i[i] >= y_i[j] >= A_i[i]:
                 amount_of_nums_in_interval += 1
+                ind = j
         n_i_lr2.append(amount_of_nums_in_interval)
         amount_of_nums_in_interval = 0
     # Вычисляем среднюю плотность вероятности для каждого интервала
     f_i = []
     for i in range(0, amount_of_intervals):
         f_i.append(n_i_lr2[i] / (n * len_of_interval))
-    visualisation(A_i, B_i, n_i_lr2, f_i)
+    table1, plt1 = visualisation(A_i, B_i, n_i_lr2, f_i)
 
     # Равновероятностный
     amount_of_intervals = find_amount_of_intervals(n)
     # Вычисляем оптимальное кол-во СВ
-    amount_of_nums_in_interval = check_amount_of_intervals(n, amount_of_intervals)
+    amount_of_intervals, y_i, n = check_amount_of_intervals(n, amount_of_intervals, y_i)
+    amount_of_nums_in_interval = n // amount_of_intervals
     n_i_lr2 = []
     for i in range(0, amount_of_intervals):
         n_i_lr2.append(amount_of_nums_in_interval)
@@ -144,4 +142,9 @@ if __name__ == '__main__':
     f_i = []
     for i in range(0, amount_of_intervals):
         f_i.append(n_i_lr2[i] / (n * h_i[i]))
-    visualisation(A_i, B_i, n_i_lr2, f_i)
+    table2, plt2 = visualisation(A_i, B_i, n_i_lr2, f_i)
+
+    table1.write_html('tmp1.html', auto_open=True)
+    table2.write_html('tmp2.html', auto_open=True)
+    plt1.show()
+    plt2.show()

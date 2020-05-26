@@ -1,3 +1,4 @@
+import random
 import numpy as np
 import matplotlib.pyplot as plt
 import math
@@ -7,20 +8,13 @@ import plotly.graph_objects as go
 # Var 3
 # Y=|x|; a=-3; b=3;
 
-# Random Variable Yi
+# СВ Yi
 def make_y_i(n, a, b):
-    sigma_i = np.random.rand(n)
+    sigma_i = [random.uniform(0, 1) for i in range(0, n)]
     x_i = list(map(lambda x: x * (b - a) + a, sigma_i))
     y_i = list(map(lambda y: math.fabs(y), x_i))
     y_i.sort()
     return y_i
-
-def M(a, b):
-    return (a + b) / 2
-
-
-def D(a, b):
-    return ((b - a) ** 2)/12
 
 
 def M(a, b):
