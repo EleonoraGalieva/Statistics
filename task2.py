@@ -57,6 +57,7 @@ def visualisation(A_i, B_i, n_i, f_i):
         nrows=1, ncols=4,
         figsize=(8, 4)
     )
+    fig.suptitle(method_name, fontsize=16)
     ax1.plot(xlist, ylist)
     ax1.set_title("Гистограмма")
     mid = make_middle_of_intervals(A_i, B_i)
