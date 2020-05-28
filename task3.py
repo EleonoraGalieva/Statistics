@@ -89,7 +89,7 @@ def mizes_criterion(n, y_i):
     F_theoretical = list(map(lambda y: F0(y), y_i))
     omega_pr = 0
     for i in range(0, n):
-        omega_pr += (F_theoretical[i] - F_practical[i]) ** 2
+        omega_pr += (F_theoretical[i] - (i-0.5)/n) ** 2
     omega_pr += 1 / (12 * n)
     # alpha = 0.01
     omega = 0.744
