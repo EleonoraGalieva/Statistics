@@ -45,7 +45,7 @@ def make_middle_of_intervals(A_i, B_i):
 
 
 # Графики и таблицы
-def visualisation(A_i, B_i, n_i, f_i):
+def visualisation(A_i, B_i, n_i, f_i, method_name):
     xlist = []
     ylist = []
     for i in range(0, amount_of_intervals):
@@ -115,7 +115,7 @@ if __name__ == '__main__':
     f_i = []
     for i in range(0, amount_of_intervals):
         f_i.append(n_i_lr2[i] / (n * len_of_interval))
-    table1, plt1 = visualisation(A_i, B_i, n_i_lr2, f_i)
+    table1, plt1 = visualisation(A_i, B_i, n_i_lr2, f_i, "Равноинтервальный метод")
 
     # Равновероятностный
     amount_of_intervals = find_amount_of_intervals(n)
@@ -139,11 +139,12 @@ if __name__ == '__main__':
     h_i = []
     for i in range(0, len(A_i)):
         h_i.append(B_i[i] - A_i[i])
+    print(h_i)
     # Вычисляем среднюю плотность вероятности для каждого интервала
     f_i = []
     for i in range(0, amount_of_intervals):
         f_i.append(n_i_lr2[i] / (n * h_i[i]))
-    table2, plt2 = visualisation(A_i, B_i, n_i_lr2, f_i)
+    table2, plt2 = visualisation(A_i, B_i, n_i_lr2, f_i, "Равновероятностный метод")
 
     table1.write_html('tmp1.html', auto_open=True)
     table2.write_html('tmp2.html', auto_open=True)
