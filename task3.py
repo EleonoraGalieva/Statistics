@@ -51,7 +51,6 @@ def pearson_criterion(n, y_i):
 
 
 def kolmogorov_criterion(n, y_i):
-    A_i, B_i, n_i, amount_of_intervals = intervals(n, y_i)
     F_theoretical = list(map(lambda y: F0(y), y_i))
     d = []
     for i in range(0, n):
@@ -69,9 +68,6 @@ def kolmogorov_criterion(n, y_i):
 
 
 def mizes_criterion(n, y_i):
-    A_i, B_i, n_i, amount_of_intervals = intervals(n, y_i)
-    n_i = [1] * n
-    n_x = make_n_x(n_i)
     F_theoretical = list(map(lambda y: F0(y), y_i))
     omega_pr = 0
     for i in range(0, n):
@@ -91,7 +87,7 @@ if __name__ == '__main__':
     pearson = pearson_criterion(n, y_i)
     if pearson:
         print("Гипотеза H0 верна по критерию согласия Пирсона")
-    n = 30
+    n = 200
     y_i = make_y_i(n, -3, 3)
     kolmogorov = kolmogorov_criterion(n, y_i)
     if kolmogorov:

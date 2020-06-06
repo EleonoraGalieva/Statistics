@@ -14,11 +14,18 @@ def evaluation_of_M(n, y_i):
     return temp
 
 
-def evaluation_of_D(n, y_i, m):
+def evaluation_of_D_1(n, y_i, m):
     temp = 0
     for i in range(0, n):
-        temp += ((y_i[i] - m) ** 2)
+        temp += ((y_i[i] - M(0,3)) ** 2)
     temp /= (n - 1)
+    return temp
+
+def evaluation_of_D_2(n, y_i, m):
+    temp = 0
+    for i in range(0, n):
+        temp += ((y_i[i] - M(0,3)) ** 2)
+    temp /= n
     return temp
 
 
@@ -44,9 +51,9 @@ def intervals_for_M(n, d, m):
     print(
         "Доверительный интервал для мат ожидания при уровне значимости 0.99 и n = " + str(n) + ": " + str(
             interval_for_m_4))
-    # m+delta-m+delta=2delta
-    # plt.plot([0.9, 0.94, 0.98, 0.99], [2 * delta1, 2 * delta2, 2 * delta3, 2 * delta4])
-    # plt.show()
+    #m+delta-m+delta=2delta
+    plt.plot([0.9, 0.94, 0.98, 0.99], [2 * delta1, 2 * delta2, 2 * delta3, 2 * delta4])
+    plt.show()
     return [interval_for_m_1, interval_for_m_2, interval_for_m_3, interval_for_m_4]
 
 
@@ -68,10 +75,10 @@ def intervals_for_D(n, d, m):
         "Доверительный интервал для дисперсии при уровне значимости 0.98 и n = " + str(n) + ": " + str(
             interval_for_d_3))
     # m+delta-m+delta=2delta
-    # plt.plot([0.95, 0.98, 0.99],
-    #           [interval_for_d_1[1] - interval_for_d_1[0], interval_for_d_2[1] - interval_for_d_2[0],
-    #           interval_for_d_3[1] - interval_for_d_3[0]])
-    # plt.show()
+    plt.plot([0.95, 0.98, 0.99],
+              [interval_for_d_1[1] - interval_for_d_1[0], interval_for_d_2[1] - interval_for_d_2[0],
+              interval_for_d_3[1] - interval_for_d_3[0]])
+    plt.show()
     return [interval_for_d_1, interval_for_d_2, interval_for_d_3]
 
 
@@ -79,7 +86,7 @@ def intervals_task_1(n):
     y_i = make_y_i(n, -3, 3)
     m = evaluation_of_M(n, y_i)
     print("Точечная оценка мат ожидания при n = " + str(n) + ": " + str(m))
-    S = evaluation_of_D(n, y_i, m)
+    S = evaluation_of_D_1(n, y_i, m)
     print("Точечная оценка дисперсии при n = " + str(n) + ": " + str(S))
     arr = intervals_for_M(n, S, m)
     D_theoretical = D(0, 3)
@@ -92,7 +99,7 @@ def intervals_task_2(n):
     y_i = make_y_i(n, -3, 3)
     m = evaluation_of_M(n, y_i)
     print("Точечная оценка мат ожидания при n = " + str(n) + ": " + str(m))
-    S = evaluation_of_D(n, y_i, m)
+    S = evaluation_of_D_2(n, y_i, m)
     print("Точечная оценка дисперсии при n = " + str(n) + ": " + str(S))
     arr = intervals_for_D(n, S, m)
     M_theoretical = M(0, 3)
@@ -101,13 +108,13 @@ def intervals_task_2(n):
 
 
 if __name__ == '__main__':
-    # interval1 = intervals_task_1(20)
-    # interval2 = intervals_task_1(50)
-    # interval3 = intervals_task_1(70)
-    # interval4 = intervals_task_1(100)
-    # interval5 = intervals_task_1(150)
-    # plt.plot([20, 50, 70, 100, 150], [interval1, interval2, interval3, interval4, interval5])
-    # plt.show()
+    interval1 = intervals_task_1(20)
+    interval2 = intervals_task_1(50)
+    interval3 = intervals_task_1(70)
+    interval4 = intervals_task_1(100)
+    interval5 = intervals_task_1(150)
+    plt.plot([20, 50, 70, 100, 150], [interval1, interval2, interval3, interval4, interval5])
+    plt.show()
 
     interval1_2 = intervals_task_2(20)
     interval2_2 = intervals_task_2(50)
