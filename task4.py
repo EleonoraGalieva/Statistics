@@ -17,14 +17,15 @@ def evaluation_of_M(n, y_i):
 def evaluation_of_D_1(n, y_i, m):
     temp = 0
     for i in range(0, n):
-        temp += ((y_i[i] - M(0,3)) ** 2)
+        temp += ((y_i[i] - M(0, 3)) ** 2)
     temp /= (n - 1)
     return temp
+
 
 def evaluation_of_D_2(n, y_i, m):
     temp = 0
     for i in range(0, n):
-        temp += ((y_i[i] - M(0,3)) ** 2)
+        temp += ((y_i[i] - M(0, 3)) ** 2)
     temp /= n
     return temp
 
@@ -51,7 +52,7 @@ def intervals_for_M(n, d, m):
     print(
         "Доверительный интервал для мат ожидания при уровне значимости 0.99 и n = " + str(n) + ": " + str(
             interval_for_m_4))
-    #m+delta-m+delta=2delta
+    # m+delta-m+delta=2delta
     plt.plot([0.9, 0.94, 0.98, 0.99], [2 * delta1, 2 * delta2, 2 * delta3, 2 * delta4])
     plt.show()
     return [interval_for_m_1, interval_for_m_2, interval_for_m_3, interval_for_m_4]
@@ -76,7 +77,7 @@ def intervals_for_D(n, d, m):
             interval_for_d_3))
     # m+delta-m+delta=2delta
     plt.plot([0.95, 0.98, 0.99],
-              [interval_for_d_1[1] - interval_for_d_1[0], interval_for_d_2[1] - interval_for_d_2[0],
+             [interval_for_d_1[1] - interval_for_d_1[0], interval_for_d_2[1] - interval_for_d_2[0],
               interval_for_d_3[1] - interval_for_d_3[0]])
     plt.show()
     return [interval_for_d_1, interval_for_d_2, interval_for_d_3]
@@ -91,8 +92,9 @@ def intervals_task_1(n):
     arr = intervals_for_M(n, S, m)
     D_theoretical = D(0, 3)
     intervals_for_M(n, D_theoretical, m)
-    return arr[0][1] - arr[0][0] #Для построения графика зависимости величины доверительного интервала от объема выборки
-                                 #использовала значения интервала для точечной дисперсии при уровне значимости 0.9
+    return arr[0][1] - arr[0][
+        0]  # Для построения графика зависимости величины доверительного интервала от объема выборки
+    # использовала значения интервала для точечной дисперсии при уровне значимости 0.9
 
 
 def intervals_task_2(n):
@@ -103,6 +105,7 @@ def intervals_task_2(n):
     print("Точечная оценка дисперсии при n = " + str(n) + ": " + str(S))
     arr = intervals_for_D(n, S, m)
     M_theoretical = M(0, 3)
+    S = evaluation_of_D_1(n, y_i, m)
     intervals_for_D(n, S, M_theoretical)
     return arr[2][1] - arr[2][0]
 
